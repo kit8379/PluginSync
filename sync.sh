@@ -15,9 +15,13 @@ do
 		echo "${SERVERUUID[$j]} ${PLUGIN[$i]}"
 		if [ ! -d "/root/sync/${NAME}/${PLUGIN[$i]}" ] 
 		then
-			cp -r /var/lib/pterodactyl/volumes/${SERVERUUID[$j]}/plugins/${PLUGIN[$i]} /root/sync/${NAME}/${PLUGIN[$i]}
+			sudo mkdir -p /root/sync/${NAME}/${PLUGIN[$i]}
 		fi
-		unison /root/sync/${NAME}/${PLUGIN[$i]} /var/lib/pterodactyl/volumes/${SERVERUUID[$j]}/plugins/${PLUGIN[$i]} -auto -batch -repeat watch -prefer newer -fat >/dev/null 2>&1 &
+		if [ ! -d "/var/lib/pterodactyl/volumes/${SERVERUUID[$j]}/plugins/${PLUGIN[$i]}" ] 
+		then
+			sudo mkdir -p /var/lib/pterodactyl/volumes/${SERVERUUID[$j]}/plugins/${PLUGIN[$i]}
+		fi
+		unison /var/lib/pterodactyl/volumes/${SERVERUUID[$j]}/plugins/${PLUGIN[$i]} /root/sync/${NAME}/${PLUGIN[$i]} -auto -batch -repeat watch -prefer newer -fat >/dev/null 2>&1 &
 	done
 done
 
