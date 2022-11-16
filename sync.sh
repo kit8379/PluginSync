@@ -7,7 +7,7 @@ SERVERUUID=("" "" "")
 PLENGTH=${#PLUGIN[*]}
 SLENGTH=${#SERVERUUID[*]}
 
-
+kill $(ps aux | grep 'unison' | awk '{print $2}')
 for ((i=0; i<${PLENGTH}; i++))
 do
 	for ((j=0; j<${SLENGTH}; j++))
